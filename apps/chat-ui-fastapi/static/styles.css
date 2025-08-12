@@ -447,6 +447,128 @@ body {
     white-space: pre-wrap;
 }
 
+/* Override white-space for assistant messages to prevent double line breaks with markdown */
+.assistant-message .message-text {
+    white-space: normal;
+    margin-top: -14px;
+}
+
+/* Markdown styling for assistant messages */
+.assistant-message .message-text h1,
+.assistant-message .message-text h2,
+.assistant-message .message-text h3,
+.assistant-message .message-text h4,
+.assistant-message .message-text h5,
+.assistant-message .message-text h6 {
+    font-weight: 600;
+    margin: 1em 0 0.5em 0;
+    line-height: 1.3;
+}
+
+.assistant-message .message-text h1 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 0.3em;
+}
+
+.assistant-message .message-text h2 {
+    font-size: 1.3em;
+}
+
+.assistant-message .message-text h3 {
+    font-size: 1.1em;
+}
+
+.assistant-message .message-text p {
+    margin: 0.8em 0;
+}
+
+.assistant-message .message-text ul,
+.assistant-message .message-text ol {
+    margin: 0.8em 0;
+    padding-left: 1.5em;
+}
+
+.assistant-message .message-text li {
+    margin: 0.3em 0;
+}
+
+.assistant-message .message-text blockquote {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.assistant-message .message-text code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: #1f2937;
+}
+
+.assistant-message .message-text pre {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 1em;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.assistant-message .message-text pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+}
+
+.assistant-message .message-text table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.assistant-message .message-text th,
+.assistant-message .message-text td {
+    border: 1px solid #d1d5db;
+    padding: 0.5em;
+    text-align: left;
+}
+
+.assistant-message .message-text th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+.assistant-message .message-text a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.assistant-message .message-text a:hover {
+    text-decoration: underline;
+}
+
+.assistant-message .message-text hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1.5em 0;
+}
+
+.assistant-message .message-text strong,
+.assistant-message .message-text b {
+    font-weight: 600;
+}
+
+.assistant-message .message-text em,
+.assistant-message .message-text i {
+    font-style: italic;
+}
+
 .message-actions {
     display: flex;
     gap: 8px;

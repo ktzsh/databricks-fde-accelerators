@@ -1,6 +1,23 @@
 class ChatApp {
     constructor() {
-        this.API_BASE = 'http://localhost:8080';
+        // Configure marked.js for safe rendering
+        if (typeof marked !== 'undefined') {
+            marked.setOptions({
+                breaks: true, // Enable line breaks
+                gfm: true,    // Enable GitHub Flavored Markdown
+                sanitize: false, // We'll handle sanitization ourselves if needed
+                smartLists: true,
+                smartypants: false
+            });
+        }
+        
+        // Determine API_BASE based on current hostname
+        const hostname = window.location.hostname;
+        if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0') {
+            this.API_BASE = 'http://localhost:8080';
+        } else {
+            this.API_BASE = '';
+        }
         this.currentChatId = null;
         this.currentUser = null;
         this.uploadedFiles = [];
@@ -284,11 +301,21 @@ class ChatApp {
             `;
         }
         
+        // Render message content - use markdown for assistant messages, plain text for user messages
+        let messageContent;
+        if (message.role === 'assistant') {
+            // Parse markdown for assistant messages
+            messageContent = marked.parse(message.content);
+        } else {
+            // Keep user messages as plain text but escape HTML
+            messageContent = this.escapeHtml(message.content);
+        }
+        
         messageDiv.innerHTML = `
             <div class="message-avatar">${avatarLetter}</div>
             <div class="message-content">
                 ${attachmentsHtml}
-                <div class="message-text">${message.content}</div>
+                <div class="message-text">${messageContent}</div>
                 ${message.role === 'assistant' ? `
                 <div class="message-actions">
                     <button class="retry-btn" onclick="chatApp.retryMessage('${message.id || Date.now()}')">
@@ -549,6 +576,12 @@ class ChatApp {
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     updateWelcomeButtonState() {

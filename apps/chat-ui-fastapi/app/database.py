@@ -7,7 +7,6 @@ class Store:
     def __init__(self):
         self.chats: Dict[int, Chat] = {}
         self.messages: Dict[int, ChatMessage] = {}
-        self.attachments: Dict[int, MessageAttachment] = {}
         self._next_chat_id = 1
         self._next_message_id = 1
         self._next_attachment_id = 1
@@ -78,11 +77,6 @@ class Store:
     
     def delete_message(self, message_id: int) -> bool:
         if message_id in self.messages:
-            # Delete associated attachments
-            attachment_ids_to_delete = [aid for aid, att in self.attachments.items() if att.message_id == message_id]
-            for attachment_id in attachment_ids_to_delete:
-                del self.attachments[attachment_id]
-            
             del self.messages[message_id]
             return True
         return False
@@ -96,7 +90,6 @@ class Store:
             file_path=file_path,
             file_type=file_type
         )
-        self.attachments[self._next_attachment_id] = attachment
         self._next_attachment_id += 1
         
         # Add attachment to message
@@ -106,7 +99,8 @@ class Store:
         return attachment
     
     def get_message_attachments(self, message_id: int) -> List[MessageAttachment]:
-        return [att for att in self.attachments.values() if att.message_id == message_id]
+        message = self.messages.get(message_id)
+        return message.attachments if message else []
     
     def get_chat_message_count(self, chat_id: int) -> int:
         return len([msg for msg in self.messages.values() if msg.chat_id == chat_id])

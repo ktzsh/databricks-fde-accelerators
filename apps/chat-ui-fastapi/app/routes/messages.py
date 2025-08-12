@@ -4,10 +4,11 @@ import os
 import aiofiles
 import uuid
 from datetime import datetime
+from mlflow.deployments import get_deploy_client
 
 from ..database import get_db, Store
 from ..models import MessageCreate, MessageResponse, MessageAttachmentResponse
-from ..utils import get_current_user_from_headers, get_agent_name
+from ..utils import get_current_user_from_headers, get_agent_name, get_env_variable
 
 router = APIRouter(prefix="/messages", tags=["messages"])
 
@@ -144,8 +145,61 @@ async def create_assistant_response(
     # Get agent name from environment variables
     agent_name = get_agent_name()
     
-    # Simulate assistant response (replace with actual Databricks API call)
-    assistant_content = f"I'm {agent_name}, and I understand you said: '{user_message}'. I'm ready to assist you with any task or question you may have. Feel free to ask me about writing, analysis, math, coding, general knowledge, or any other topic, and I'll do my best to provide a thorough and helpful response."
+    # Get all user messages
+    messages = store.get_chat_messages(chat_id)
+  
+    # Prepare messages for the API call
+    api_messages = []
+    for i, msg in enumerate(messages):
+        if i == len(messages) - 1:
+            # TODO Parse and add attachment to message
+            # Last message, include attachments
+            if msg.attachments:
+                for attachment in msg.attachments:
+                    if attachment.file_type == "image":
+                        pass
+                    elif attachment.file_type == "pdf":
+                        pass
+                    else:
+                        pass
+
+        api_messages.append({
+            "role": msg.role,
+            "content": msg.content
+        })
+
+    # Prepare payload for Databricks serving endpoint
+    payload = {
+        "messages": api_messages
+    }
+
+    # Get endpoint name from environment variables
+    endpoint_name = get_env_variable("LLM_SERVING_ENDPOINT", "")
+
+    try:
+        # Call Databricks serving endpoint
+        if not endpoint_name:
+            assistant_content = f"Echo: I'm {agent_name}, this is localhost and I understand you said: '{user_message}'"
+        else:
+            client = get_deploy_client("databricks")
+            response = client.predict(endpoint=endpoint_name, inputs=payload)
+            
+            # Extract assistant content from response
+            # Adjust this based on your endpoint's response format
+            if isinstance(response, dict) and "choices" in response:
+                assistant_content = response["choices"][0]["message"]["content"]
+            elif isinstance(response, dict) and "content" in response:
+                assistant_content = response["content"]
+            elif isinstance(response, str):
+                assistant_content = response
+            else:
+                # Fallback if response format is unexpected
+                assistant_content = str(response)
+            
+    except Exception as e:
+        # Log the error and provide a fallback response
+        print(f"Error calling Databricks endpoint: {str(e)}")
+        assistant_content = f"I'm experiencing technical difficulties right now, but I'm here to help. Could you please try again?"
     
     # Create assistant message
     message = store.create_message(

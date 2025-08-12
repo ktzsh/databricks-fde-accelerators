@@ -1,1 +1,5 @@
 command: ["uvicorn", "app.main:app"]
+
+env:
+  - name: LLM_SERVING_ENDPOINT
+    valueFrom: "serving_endpoint"

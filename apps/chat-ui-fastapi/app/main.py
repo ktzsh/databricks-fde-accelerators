@@ -45,13 +45,6 @@ def read_root():
 def health_check():
     return {"status": "healthy"}
 
-@app.get("/api/config")
-def get_config():
-    return {
-        "api_base_url": os.getenv("API_BASE_URL", f"http://localhost:{os.getenv('PORT', 8080)}"),
-        "agent_name": os.getenv("AGENT_NAME", "MyAgent")
-    }
-
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8080))

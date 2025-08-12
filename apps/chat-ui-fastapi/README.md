@@ -22,6 +22,48 @@ This application has been modified to work with **external authentication**. It 
 
 See `EXTERNAL_AUTH_MIGRATION.md` for detailed migration information.
 
+## Databricks Integration
+
+This application integrates with Databricks serving endpoints to provide AI-powered responses. 
+
+### Configuration
+
+1. **Set up environment variables** (copy `.env.example` to `.env` and fill in values):
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Required environment variables**:
+   - `DATABRICKS_ENDPOINT_NAME`: Name of your deployed model serving endpoint
+   - `DATABRICKS_HOST`: Your Databricks workspace URL 
+   - `DATABRICKS_TOKEN`: Personal access token or service principal token
+
+3. **Endpoint Response Format**: The endpoint should accept the following payload:
+   ```json
+   {
+     "messages": [
+       {"role": "user", "content": "Hello"},
+       {"role": "assistant", "content": "Hi there!"}
+     ],
+     "context": {
+       "user_id": "user123",
+       "conversation_id": "chat456"
+     }
+   }
+   ```
+
+   And return a response in one of these formats:
+   ```json
+   // OpenAI-style response
+   {"choices": [{"message": {"content": "Assistant response"}}]}
+   
+   // Simple content response  
+   {"content": "Assistant response"}
+   
+   // Direct string response
+   "Assistant response"
+   ```
+
 ## Project Structure
 
 ```
@@ -204,7 +246,9 @@ print(response.json())
 ### Environment Variables
 ```
 DATABASE_URL=postgresql://user:password@localhost/dbname
-DATABRICKS_API_KEY=your-databricks-api-key-here
+DATABRICKS_ENDPOINT_NAME=your-databricks-endpoint-name
+DATABRICKS_HOST=https://your-workspace.cloud.databricks.com
+DATABRICKS_TOKEN=your-databricks-token
 AGENT_NAME=MyAgent
 ```
 
