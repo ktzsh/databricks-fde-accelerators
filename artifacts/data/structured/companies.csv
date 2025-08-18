@@ -1,0 +1,5 @@
+company_id,ticker,name,sector,ipo_date
+1,WWS,WWebServices,Cloud Computing,2015-06-15
+2,XBR,XBricks,Infrastructure Software,2018-03-27
+3,YFK,YFlake,Data Warehousing,2016-11-04
+4,ZSF,ZSoft,Enterprise Software,2014-09-19

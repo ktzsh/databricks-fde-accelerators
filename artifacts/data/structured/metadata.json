@@ -1,0 +1,39 @@
+{
+    "companies": {
+        "description": "Contains static information about each publicly traded company in the dataset",
+        "columns": {
+            "company_id": "Unique identifier for each company",
+            "ticker": "Stock ticker symbol for the company.",
+            "sector": "Primary industry sector of the company.",
+            "ipo_date": "Date the company went public",
+            "name": "Name of the company"
+        }
+    },
+    "financials": {
+        "description": "Stores quarterly financial performance metrics for each company",
+        "columns": {
+            "id": "Unique identifier for each financial record",
+            "ticker": "Stock ticker symbol of the company.",
+            "fiscal_year": "The fiscal year for the reported period",
+            "fiscal_quarter": "The fiscal quarter for the reported period (e.g. Q1, Q2)",
+            "period_end": "The end date of the reporting period",
+            "revenue_m": "Reported revenue in millions of USD",
+            "net_income_m": "Reported net income in millions of USD",
+            "eps": "Earnings per share for the period in USD",
+            "shares_out_m": "Number of shares outstanding in millions" 
+        }
+    },
+    "daily_prices": {
+        "description": "Holds daily stock price and trading volume data for each company. Always use the difference between the close and open prices to get the percentage change.",
+        "columns": {
+            "id": "Unique identifier for each price record",
+            "ticker": "Stock ticker symbol of the company.",
+            "date": "Trading date for the price data",
+            "open": "Stock opening price on the given date in USD",
+            "high": "Highest price reached during the trading day in USD",
+            "low": "Lowest price reached during the trading day in USD",
+            "close": "Closing price on the given date in USD",
+            "volume": "Number of shares traded on the given date"
+        }
+    }
+}

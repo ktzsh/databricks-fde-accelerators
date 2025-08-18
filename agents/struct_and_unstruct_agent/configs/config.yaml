@@ -1,0 +1,88 @@
+catalog_name: main
+schema_name: personal_finance_demo
+volume_name: raw_data
+
+# data and ingestion related fields
+warehouse_id: dd43ee29fedd958d
+processed_chunks_table_name: doc_chunks
+embedding_endpoint_name: databricks-gte-large-en
+vector_endpoint_name: jpmc-ecomm-endpoint
+vector_index_table_name: doc_chunks_index
+
+# agent related fields
+vector_search_index_primary_key_column: id
+vector_search_index_text_column: content
+vector_search_index_doc_uri_column: doc_uri
+vector_search_parameters:
+  columns:
+    - "id"
+    - "content"
+    - "doc_uri"
+    - "metadata"
+  num_results: 2
+  query_type: "HYBRID"
+
+agent_backend: langgraph
+agent_model_name: struct_unstruct_agent
+agent_endpoint_name_prefix: agent_struct_unstruct_demo
+agent_user_list:
+  - kshitiz.sharma@databricks.com
+agents_max_iterations: 6
+agent_scale_to_zero: true
+agent_input_example:
+  input:
+    - role: user
+      content: "What was the one-day price change and percent change due to the XBR press release in Q3 2025 and what were the reason behind it?"
+include_supervisor_in_chat_context: false
+# llm_endpoint_name: databricks-claude-3-7-sonnet
+llm_endpoint_name: databricks-claude-sonnet-4
+# llm_endpoint_name: databricks-llama-4-maverick
+llm_parameters:
+  temperature: 0.0
+  max_tokens: 4096
+agents:
+  supervisor:
+    system_prompt: |
+      You are a smart assistant that coordinates the work of other agents.
+
+      # Instruction
+      Your task is to redirect user queries to the appropriate agent based on the information required.
+      
+      # Available Agents
+      1. structured_agent: Agent that retrieves data about listed companies' ticker, name, financials, and daily prices.
+      2. unstructured_agent: Agent that retrieve facts from press releases, shareholder letters and analyst notes on various companies.
+      3. response_agent: Agent that generates a final helpful response using all available information.
+
+
+      # Guidelines
+      - You must choose between the unstructured_agent and the structured_agent to get relevant facts.
+      - If all relevant facts are available you must use the response_agent to generate a final response.
+
+  unstructured_agent:
+    system_prompt: |-
+      You are a helpful assistant that retrieves information from from press releases, shareholder letters and analyst notes using available tool.
+
+      - You do not have access to daily prices, financials of a company.
+      - You must call "Retriever" tool only once per user query.
+    tools:
+      vector_search_tool:
+        tool_name: "Retriever"
+        tool_description: "Tool to retrieve facts from press releases, shareholder letters and analyst notes on various companies using semantic similarity."
+        tool_arguments:
+          query_input_description: "The query to search for relevant facts"
+
+  structured_agent:
+    genie_space_id: 01f078450093189fbb93166e614f8fea
+    genie_agent_description: Agent that retrieves data about listed companies' ticker, name, financials, and daily prices.
+  
+  response_agent:
+    system_prompt: |-
+      You are a helpful assistant working with other agents.
+
+      # Instruction
+      Your task is to use and combine information provided by other agents and generate a final response to the user question.
+
+      # Guidelines
+      1. Always provide precise and facts based responses to the user question.
+      2. If information is not available, politely inform the user asking to provide clarification or additional context.
+      3. Always structure your response using headings, subheadings, lists, and tables appropriately.
