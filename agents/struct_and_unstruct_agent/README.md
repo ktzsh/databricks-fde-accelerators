@@ -1,7 +1,20 @@
 # RAG Agent (Structured + Unstructured)
 
-- Structured data includes information about imaginary listed companies, their quaterly financial metrics and daily prices (few dates) from period Jan 1 2025 to Jan 1 2026.
-- The Unstructured data includes information from press releases, shareholder letters and analyst notes.
+## Problem Description
+Stock investors often need to combine structured data (e.g., daily prices, quarterly financials, divdends & splits) with unstructured data (e.g., press releases, analyst notes, shareholder letters) to understand market movements and investment opportunities. This project demonstrates a multi-agent RAG system that integrates structured (sql-like) and unstructured (vector-search-based) retrievals to answer queries that span both domains.
+
+## Dataset Description
+Structured Data
+- Includes information about 4 fictional companies: WWebServices, XBricks, YFlake, and ZSoft
+- Data covers the period Jan 1, 2025 – Jan 1, 2026
+- Tables include:
+    - companies (tickers, names)
+    - financials (quarterly metrics)
+    - daily_prices (closing prices, daily changes)
+
+Unstructured Data
+- Includes press releases, shareholder letters, and analyst notes for the same companies
+- Stored in a vector search index for semantic retrieval
 
 ## Target Questions
 - What was the one-day price change and percent change due to the XBR press release in Q3 2025 and what were the reason behind it?
