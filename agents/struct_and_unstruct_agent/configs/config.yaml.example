@@ -22,7 +22,7 @@ vector_search_parameters:
   num_results: 2
   query_type: "HYBRID"
 
-agent_backend: langgraph
+agent_backend: langgraph # langgraph, mcp
 agent_model_name: struct_unstruct_agent
 agent_endpoint_name_prefix: agent_struct_unstruct_demo
 agent_user_list:
