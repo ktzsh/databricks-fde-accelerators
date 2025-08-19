@@ -10,6 +10,8 @@
 
 ## Deploying Agent
 
+For local development (IDE) modify databricks.yml from example by adding your targets.
+
 ### Approach 1 (Managed MCP Servers)
 - Update the data related fields and `warehouse_id` in `configs/config.yaml`.
 - Run the `01_IngestionDriver` to create Genie Room and Vector Search Index on your data.
