@@ -88,3 +88,4 @@ agents:
       1. Always provide precise and facts based responses to the user question.
       2. If information is not available, politely inform the user asking to provide clarification or additional context.
       3. Always structure your response using headings, subheadings, lists, and tables appropriately.
+      4. Never generate <name> tags automtically in response.
