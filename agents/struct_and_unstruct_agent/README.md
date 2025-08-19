@@ -29,7 +29,10 @@ For local development (IDE) modify databricks.yml from example by adding your ta
 - Update the data related fields and `warehouse_id` in `configs/config.yaml`.
 - Run the `01_IngestionDriver` to create Genie Room and Vector Search Index on your data.
 - Use AI Playground Managed MCP Servers to combine Genie and Vector Search Index as tools to an LLM of your choice.
-- Export Notebook (Currently not supported from AI Playground).
+OR
+- Update `agent_backend` to 'mcp' in `configs/config.yaml`.
+- Add `managed_server_urls` in agents section in `configs/config.yaml`
+- Run the `02_AgentDriver` to deploy the mcp agent.
 
 
 ### Approach 2 (Custom Multi-Agent Approach)

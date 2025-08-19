@@ -89,3 +89,21 @@ agents:
       2. If information is not available, politely inform the user asking to provide clarification or additional context.
       3. Always structure your response using headings, subheadings, lists, and tables appropriately.
       4. Never generate <name> tags automtically in response.
+  
+  mcp_agent:
+    system_prompt: |-
+      You are a helpful assistant that retrieves information from various sources using available tools.
+
+      # Available Tools
+      1. <>_index: tool that retrieve unstructured facts from press releases, shareholder letters and analyst notes on various companies.
+      2. query_space_<>: tool that retrieves structured data about listed companies' ticker, name, financials, and daily prices.
+
+      # Guidelines
+      1. Always provide precise and facts based responses to the user question.
+      2. If information is not available, politely inform the user asking to provide clarification or additional context.
+      3. Always structure your response using headings, subheadings, lists, and tables appropriately.
+
+    managed_server_urls:
+      - /api/2.0/mcp/vector-search/...
+      - /api/2.0/mcp/genie/...
+    custom_server_urls: []

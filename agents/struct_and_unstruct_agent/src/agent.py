@@ -14,8 +14,6 @@ from mlflow.types.responses import (
     ResponsesAgentStreamEvent,
 )
 
-from src.agent_impl.langgraph import LangGraphAgent
-
 mlflow.langchain.autolog()
 
 
@@ -26,6 +24,10 @@ class ToolCallingAgent(ResponsesAgent):
 
     def __init__(self, model_config: mlflow.models.ModelConfig):
         if model_config.get("agent_backend") == "langgraph":
+            from src.agent_impl.langgraph import LangGraphAgent
+            self.program = LangGraphAgent(model_config)
+        elif model_config.get("agent_backend") == "mcp":
+            from src.agent_impl.langgraph_mcp import LangGraphAgent
             self.program = LangGraphAgent(model_config)
         elif model_config.get("agent_backend") == "dspy":
             raise NotImplementedError
