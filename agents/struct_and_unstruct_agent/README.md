@@ -11,14 +11,14 @@
 ## Deploying Agent
 
 ### Approach 1 (Managed MCP Servers)
-- Update the data related fields and `warehouse_id` in `config.yaml`.
+- Update the data related fields and `warehouse_id` in `configs/config.yaml`.
 - Run the `01_IngestionDriver` to create Genie Room and Vector Search Index on your data.
 - Use AI Playground Managed MCP Servers to combine Genie and Vector Search Index as tools to an LLM of your choice.
 - Export Notebook (Currently not supported from AI Playground).
 
 
 ### Approach 2 (Custom Multi-Agent Approach)
-- Update the data related fields and `warehouse_id` in `config.yaml`.
+- Update the data related fields and `warehouse_id` in `configs/config.yaml`.
 - Run the `01_IngestionDriver` to create Genie Space and VS index on your data.
 - Update the `genie_space_id` in the config.yaml
 - Run the `02_AgentDriver` to deploy the multi-agent supervisor agent.
@@ -26,7 +26,7 @@
 
 
 ### Approach 3 (AI Agents Tiles)
-- Update the data related fields and `warehouse_id` in `config.yaml`.
+- Update the data related fields and `warehouse_id` in `configs/config.yaml`.
 - Run the `01_IngestionDriver` to create Genie Space and VS index on your data.
 - Create a KA Assitant from AI Agents tiles using VS Index.
     - Get descriptions and prompts from config.yaml where required.

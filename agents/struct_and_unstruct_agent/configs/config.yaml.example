@@ -1,12 +1,12 @@
-catalog_name: main
-schema_name: personal_finance_demo
-volume_name: raw_data
+catalog_name: 
+schema_name: 
+volume_name: 
 
 # data and ingestion related fields
-warehouse_id: dd43ee29fedd958d
+warehouse_id: 
 processed_chunks_table_name: doc_chunks
 embedding_endpoint_name: databricks-gte-large-en
-vector_endpoint_name: jpmc-ecomm-endpoint
+vector_endpoint_name: 
 vector_index_table_name: doc_chunks_index
 
 # agent related fields
@@ -26,7 +26,7 @@ agent_backend: langgraph
 agent_model_name: struct_unstruct_agent
 agent_endpoint_name_prefix: agent_struct_unstruct_demo
 agent_user_list:
-  - kshitiz.sharma@databricks.com
+  - 
 agents_max_iterations: 6
 agent_scale_to_zero: true
 agent_input_example:
@@ -74,7 +74,7 @@ agents:
           query_input_description: "The query to search for relevant facts"
 
   structured_agent:
-    genie_space_id: 01f078450093189fbb93166e614f8fea
+    genie_space_id: 
     genie_agent_description: Agent that retrieves data about listed companies' ticker, name, financials, and daily prices.
   
   response_agent:
